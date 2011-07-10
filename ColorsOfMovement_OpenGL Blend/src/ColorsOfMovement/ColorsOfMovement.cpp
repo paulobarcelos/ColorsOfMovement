@@ -53,7 +53,7 @@ void ColorsOfMovement::setup(int width, int height)
 void ColorsOfMovement::update(unsigned char * pixels)
 {	
 	ofImage * currentFrame = new ofImage();
-	(*currentFrame).setFromPixels(pixels, width,  height, 0x01);
+	(*currentFrame).setFromPixels(pixels, width,  height, OF_IMAGE_COLOR);
 	
 	imgs.push_back(currentFrame);
 	if (imgs.size() > MAX_STORED_FRAMES){
@@ -67,8 +67,13 @@ void ColorsOfMovement::update(unsigned char * pixels)
 		pixelsG =  (*imgs[MAX_STORED_FRAMES / 2]).getPixels();
 		pixelsR =  (*imgs[MAX_STORED_FRAMES - 1]).getPixels();
 		
+		texR = (*imgs[0]).getTextureReference();
+		texG = (*imgs[MAX_STORED_FRAMES / 2]).getTextureReference();
+		texB = (*imgs[MAX_STORED_FRAMES - 1]).getTextureReference();
 		
-		channel = 0;
+		
+		/*
+		 channel = 0;
 		for (int i = 0; i < totalPixels ; i++){
 			if ( channel == 0 ) // R
 			{
@@ -92,6 +97,7 @@ void ColorsOfMovement::update(unsigned char * pixels)
 			
 		}
 		tex.loadData(RGBData, width, height, GL_RGB);
+		 */
 	}
 	
 }
@@ -105,7 +111,22 @@ void ColorsOfMovement::draw(float x, float y, float w, float h)
 
 void ColorsOfMovement::draw(float x, float y)
 {
-	tex.draw(x, y);
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	
+	glBlendColor(255,0,0,255);
+	glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
+	texR.draw(0, 0);
+	
+	glBlendColor(0,255,0,255);
+	glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
+	texG.draw(0, 0);
+	
+	glBlendColor(0,0,255,255);
+	glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
+	texB.draw(0, 0);
+	
+	glDisable(GL_BLEND);
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // isReady ------------------------------------------------------------------------

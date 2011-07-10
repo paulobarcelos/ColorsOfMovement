@@ -13,24 +13,35 @@ void testApp::setup(){
 	logo.loadImage("logo.png");
 	splash.loadImage("splash.png");
 	
-	ofAddListener(capture.events.connectionEvt, this, &testApp::onCameraConnection);
+	//ofAddListener(capture.events.connectionEvt, this, &testApp::onCameraConnection);
 	
-	capture.startCapture(640, 480);
+	//capture.startCapture(640, 480);
+	capture.setVerbose(true);
+	capture.setDeviceID(1);
+	capture.initGrabber(640,480);
+	
+	cm.setup(640, 480);
 }
-///////////////////////////////////////////////////////////////////////////////////
+/*///////////////////////////////////////////////////////////////////////////////////
 // onConnection -------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void testApp::onCameraConnection(ofxSmartCaptureEventArgs &args){
 	cm.setup(args.captureSize.x, args.captureSize.y);
-}
+}*/
 ///////////////////////////////////////////////////////////////////////////////////
 // update -------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void testApp::update(){
-	capture.update();
+	/*capture.update();
 	
 	if (capture.isCameraAvailable() && capture.isFrameNew())
+		cm.update(capture.getPixels());*/
+	
+	capture.grabFrame();
+	
+	if (capture.isFrameNew())
 		cm.update(capture.getPixels());
+	
 	
 }
 ///////////////////////////////////////////////////////////////////////////////////

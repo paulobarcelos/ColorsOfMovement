@@ -5,10 +5,10 @@
 *.user
 .DS_Store
 *.app
+*.build
 
 # Windows
 *.suo
 *.ncb
 *.sdf
-
 *.exe
