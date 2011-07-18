@@ -3,14 +3,11 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // setup --------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
-void testApp::setup(){
-	
+void testApp::setup(){	
 	ofSetVerticalSync(true);
 	ofBackground(0, 0, 0);
 	ofSetFullscreen(true);
 	
-	capture.setVerbose(true);
-	capture.setDeviceID(1);
 	capture.initGrabber(640,480);
 	
 	cm.setup(640, 480);
@@ -30,20 +27,8 @@ void testApp::update(){
 // draw ---------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void testApp::draw(){
-	
-	float w,h,x,y;
 	if(cm.isReady())
-	{
-		cm.drawFBO();
-		ofDrawImageInRect( &(cm.getTextureReference()),							//original texture pointer
-							ofRectangle( 0,0, ofGetWidth(), ofGetHeight()),		//size and location of the image
-							false,												//rotate 90
-							true,												//flip horizontal
-							VERTICAL_CENTER,									//vertical align
-							HORIZONTAL_CENTER									//horizontal align
-							);
-		
-	}
+		cm.draw(0, 0, ofGetWidth(), ofGetHeight());
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // keyPressed ---------------------------------------------------------------------

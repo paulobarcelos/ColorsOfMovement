@@ -124,8 +124,8 @@
 		38106730139557AD00F7973D /* ColorsOfMovement */ = {
 			isa = PBXGroup;
 			children = (
-				38106731139557AD00F7973D /* ColorsOfMovement.cpp */,
 				38106732139557AD00F7973D /* ColorsOfMovement.h */,
+				38106731139557AD00F7973D /* ColorsOfMovement.cpp */,
 			);
 			path = ColorsOfMovement;
 			sourceTree = "<group>";

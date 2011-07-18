@@ -73,12 +73,13 @@ void ColorsOfMovement::update(unsigned char * pixels)
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::draw(float x, float y, float w, float h)
 {
-	fbo.draw(x, y, w, h);
+	drawFBO();
+	ofDrawImageInRect(&(fbo.getTextureReference()), ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
 }
 
 void ColorsOfMovement::draw(float x, float y)
 {
-	fbo.draw(x, y);
+	fbo.draw(x, y, width, height);
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // drawFBO ------------------------------------------------------------------------
@@ -97,6 +98,7 @@ void ColorsOfMovement::drawFBO()
 	
 		glBlendColor(255,0,0,255);
 		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
+	
 		texR.draw(0, 0);
 	
 		glBlendColor(0,255,0,255);

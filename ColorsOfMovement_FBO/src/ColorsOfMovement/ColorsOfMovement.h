@@ -14,6 +14,7 @@
 
 #include "ofMain.h"
 #include "ofxXmlSettings.h"
+#include "ofxDrawingUtils.h"
 
 ////////////////////////////////////////////////////////////
 // CLASS DEFINITION ----------------------------------------
@@ -29,7 +30,6 @@ public:
 	void				update(unsigned char * pixels);
 	void				draw(float x, float y, float w, float h);
 	void				draw(float x, float y);
-	void				drawFBO();
 	
 	bool				isReady();
 	void				setStoredFrames(int numFrames);
@@ -55,7 +55,9 @@ private:
 	vector <ofImage *>	imgs;
 	
 	int					width, height;
-	ofTexture			texR, texG, texB;	
+	ofTexture			texR, texG, texB;
+	
+	void				drawFBO();
 	ofFbo				fbo;
 	
 	ofxXmlSettings		settings;
