@@ -6,12 +6,8 @@
 void testApp::setup(){
 	
 	ofSetVerticalSync(true);
-	ofSetFrameRate(30);
 	ofBackground(0, 0, 0);
-	//ofSetFullscreen(true);
-	
-	logo.loadImage("logo.png");
-	splash.loadImage("splash.png");
+	ofSetFullscreen(true);
 	
 	capture.setVerbose(true);
 	capture.setDeviceID(1);
@@ -27,8 +23,7 @@ void testApp::update(){
 	capture.grabFrame();
 	
 	if (capture.isFrameNew())
-		cm.update(capture.getPixels());
-	
+		cm.update(capture.getPixels());	
 	
 }
 ///////////////////////////////////////////////////////////////////////////////////
@@ -49,8 +44,6 @@ void testApp::draw(){
 							);
 		
 	}
-	
-
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // keyPressed ---------------------------------------------------------------------
@@ -68,13 +61,4 @@ void testApp::keyPressed(int key){
 	
 	if (key=='+')
 		cm.setStoredFrames( cm.getStoredFrames() + 1 );
-	
-	if (key == 'w') 	
-		cm.saveSettings();
-	
-	if (key == 'r') 
-		cm.loadSettings(); 
-	
-	printf( "%d frames\n", cm.getStoredFrames() );
-	
 }

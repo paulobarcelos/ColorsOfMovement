@@ -20,10 +20,5 @@ public:
 	
 	ofVideoGrabber 		capture;	
 	ColorsOfMovement	cm;
-	
-	ofImage				logo;
-	ofImage				splash;
-	
-	
 };
 #endif
