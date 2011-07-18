@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		38106737139557AD00F7973D /* ColorsOfMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38106731139557AD00F7973D /* ColorsOfMovement.cpp */; };
-		38106738139557AD00F7973D /* ofxDrawingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38106735139557AD00F7973D /* ofxDrawingUtils.cpp */; };
+		38140A5713D4C0B9007D8648 /* ofxDrawingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A5413D4C0B9007D8648 /* ofxDrawingUtils.cpp */; };
+		38140A6213D4C0CC007D8648 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A5B13D4C0CC007D8648 /* tinyxml.cpp */; };
+		38140A6313D4C0CC007D8648 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A5D13D4C0CC007D8648 /* tinyxmlerror.cpp */; };
+		38140A6413D4C0CC007D8648 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A5E13D4C0CC007D8648 /* tinyxmlparser.cpp */; };
+		38140A6513D4C0CC007D8648 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A6013D4C0CC007D8648 /* ofxXmlSettings.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -61,9 +65,14 @@
 /* Begin PBXFileReference section */
 		38106731139557AD00F7973D /* ColorsOfMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorsOfMovement.cpp; sourceTree = "<group>"; };
 		38106732139557AD00F7973D /* ColorsOfMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsOfMovement.h; sourceTree = "<group>"; };
-		38106734139557AD00F7973D /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
-		38106735139557AD00F7973D /* ofxDrawingUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDrawingUtils.cpp; sourceTree = "<group>"; };
-		38106736139557AD00F7973D /* ofxDrawingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDrawingUtils.h; sourceTree = "<group>"; };
+		38140A5413D4C0B9007D8648 /* ofxDrawingUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDrawingUtils.cpp; sourceTree = "<group>"; };
+		38140A5513D4C0B9007D8648 /* ofxDrawingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDrawingUtils.h; sourceTree = "<group>"; };
+		38140A5B13D4C0CC007D8648 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		38140A5C13D4C0CC007D8648 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		38140A5D13D4C0CC007D8648 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		38140A5E13D4C0CC007D8648 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		38140A6013D4C0CC007D8648 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		38140A6113D4C0CC007D8648 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -121,19 +130,51 @@
 			path = ColorsOfMovement;
 			sourceTree = "<group>";
 		};
-		38106733139557AD00F7973D /* ofxDrawingUtils */ = {
+		38140A1613D4C0B9007D8648 /* ofxDrawingUtils */ = {
 			isa = PBXGroup;
 			children = (
-				38106734139557AD00F7973D /* install.xml */,
-				38106735139557AD00F7973D /* ofxDrawingUtils.cpp */,
-				38106736139557AD00F7973D /* ofxDrawingUtils.h */,
+				38140A5413D4C0B9007D8648 /* ofxDrawingUtils.cpp */,
+				38140A5513D4C0B9007D8648 /* ofxDrawingUtils.h */,
 			);
-			path = ofxDrawingUtils;
+			name = ofxDrawingUtils;
+			path = ../../../addons/ofxDrawingUtils;
+			sourceTree = SOURCE_ROOT;
+		};
+		38140A5813D4C0CC007D8648 /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				38140A5A13D4C0CC007D8648 /* libs */,
+				38140A5F13D4C0CC007D8648 /* src */,
+			);
+			name = ofxXmlSettings;
+			path = ../../../addons/ofxXmlSettings;
+			sourceTree = SOURCE_ROOT;
+		};
+		38140A5A13D4C0CC007D8648 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				38140A5B13D4C0CC007D8648 /* tinyxml.cpp */,
+				38140A5C13D4C0CC007D8648 /* tinyxml.h */,
+				38140A5D13D4C0CC007D8648 /* tinyxmlerror.cpp */,
+				38140A5E13D4C0CC007D8648 /* tinyxmlparser.cpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		38140A5F13D4C0CC007D8648 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				38140A6013D4C0CC007D8648 /* ofxXmlSettings.cpp */,
+				38140A6113D4C0CC007D8648 /* ofxXmlSettings.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				38140A5813D4C0CC007D8648 /* ofxXmlSettings */,
+				38140A1613D4C0B9007D8648 /* ofxDrawingUtils */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -200,10 +241,9 @@
 			isa = PBXGroup;
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
+				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
 				38106730139557AD00F7973D /* ColorsOfMovement */,
-				38106733139557AD00F7973D /* ofxDrawingUtils */,
-				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -295,7 +335,11 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				38106737139557AD00F7973D /* ColorsOfMovement.cpp in Sources */,
-				38106738139557AD00F7973D /* ofxDrawingUtils.cpp in Sources */,
+				38140A5713D4C0B9007D8648 /* ofxDrawingUtils.cpp in Sources */,
+				38140A6213D4C0CC007D8648 /* tinyxml.cpp in Sources */,
+				38140A6313D4C0CC007D8648 /* tinyxmlerror.cpp in Sources */,
+				38140A6413D4C0CC007D8648 /* tinyxmlparser.cpp in Sources */,
+				38140A6513D4C0CC007D8648 /* ofxXmlSettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

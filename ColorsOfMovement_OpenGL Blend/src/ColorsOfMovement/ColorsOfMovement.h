@@ -10,7 +10,11 @@
 #ifndef _COLORS_OF_MOVEMENT
 #define _COLORS_OF_MOVEMENT
 
+#define CM_DEFAULT_NUM_STORED_FRAMES 30
+
 #include "ofMain.h"
+#include "ofxXmlSettings.h"
+#include "ofxDrawingUtils.h"
 
 ////////////////////////////////////////////////////////////
 // CLASS DEFINITION ----------------------------------------
@@ -30,14 +34,13 @@ public:
 	bool				isReady();
 	void				setStoredFrames(int numFrames);
 	int					getStoredFrames();
-
+	
 	void				saveSettings();
 	void				loadSettings();
 	
-	int					width, height;
-	ofTexture			tex;
-	ofTexture			texR, texG, texB;
-
+	int					getWidth();
+	int					getHeight();
+	
 private:
 	
 	int					totalPixels;	
@@ -48,6 +51,14 @@ private:
 	int					MAX_STORED_FRAMES;
 	
 	vector <ofImage *>	imgs;
-		
+	
+	int					width, height;
+	ofTexture			texR, texG, texB;
+	
+	ofxXmlSettings		settings;
+	int					numStoredFrames;
+	
+	void				flushStoredFrames();
+	
 };
 #endif
