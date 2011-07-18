@@ -43,13 +43,6 @@ public:
 	
 private:
 	
-	int					totalPixels;	
-	unsigned char		* RGBData;
-	unsigned char		* pixelsR, * pixelsG, * pixelsB;	
-	int					channel, r, g, b;
-	
-	int					MAX_STORED_FRAMES;
-	
 	vector <ofImage *>	imgs;
 	
 	int					width, height;

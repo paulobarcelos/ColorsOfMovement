@@ -15,7 +15,6 @@
 ///////////////////////////////////////////////////////////////////////////////////
 ColorsOfMovement::ColorsOfMovement()
 {	
-	loadSettings();
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // Destructor --------------------------------------------------------------------
@@ -51,10 +50,6 @@ void ColorsOfMovement::update(unsigned char * pixels)
 	
 	if (imgs.size() == numStoredFrames)
 	{
-		pixelsB =  (*imgs[0]).getPixels();
-		pixelsG =  (*imgs[numStoredFrames / 2]).getPixels();
-		pixelsR =  (*imgs[numStoredFrames - 1]).getPixels();
-		
 		texR = (*imgs[0]).getTextureReference();
 		texG = (*imgs[numStoredFrames / 2]).getTextureReference();
 		texB = (*imgs[numStoredFrames - 1]).getTextureReference();
