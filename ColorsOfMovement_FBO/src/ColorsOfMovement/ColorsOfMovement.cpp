@@ -15,8 +15,6 @@
 ///////////////////////////////////////////////////////////////////////////////////
 ColorsOfMovement::ColorsOfMovement()
 {	
-	RGBData = NULL;
-	MAX_STORED_FRAMES = 30;
 	loadSettings();
 }
 ///////////////////////////////////////////////////////////////////////////////////
@@ -24,7 +22,6 @@ ColorsOfMovement::ColorsOfMovement()
 ///////////////////////////////////////////////////////////////////////////////////
 ColorsOfMovement::~ColorsOfMovement()
 {	
-	if(RGBData != NULL) delete RGBData;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // setup --------------------------------------------------------------------------
@@ -33,23 +30,17 @@ void ColorsOfMovement::setup(int width, int height)
 {	
 	this->width = width;
 	this->height = height;
-	
-	totalPixels = width * height * 3;
-	if(RGBData != NULL) delete RGBData;
-	
+
 	ofFbo::Settings s;
 	s.width				= width;
 	s.height			= height;
 	s.numColorbuffers	= 1;
 	s.numSamples		= 0;
 	fbo.allocate(s);
+
+	flushStoredFrames();
 	
-	// Clear the stored images
-	while (imgs.size() > 0){
-		delete imgs[0];
-		imgs.erase(imgs.begin());
-	}
-		
+	loadSettings();
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // update -------------------------------------------------------------------------
@@ -60,20 +51,20 @@ void ColorsOfMovement::update(unsigned char * pixels)
 	(*currentFrame).setFromPixels(pixels, width,  height, OF_IMAGE_COLOR);
 	
 	imgs.push_back(currentFrame);
-	if (imgs.size() > MAX_STORED_FRAMES){
+	if (imgs.size() > numStoredFrames){
 		delete imgs[0];
 		imgs.erase(imgs.begin());
 	}
 	
-	if (imgs.size() == MAX_STORED_FRAMES)
+	if (imgs.size() == numStoredFrames)
 	{
 		pixelsB =  (*imgs[0]).getPixels();
-		pixelsG =  (*imgs[MAX_STORED_FRAMES / 2]).getPixels();
-		pixelsR =  (*imgs[MAX_STORED_FRAMES - 1]).getPixels();
+		pixelsG =  (*imgs[numStoredFrames / 2]).getPixels();
+		pixelsR =  (*imgs[numStoredFrames - 1]).getPixels();
 		
 		texR = (*imgs[0]).getTextureReference();
-		texG = (*imgs[MAX_STORED_FRAMES / 2]).getTextureReference();
-		texB = (*imgs[MAX_STORED_FRAMES - 1]).getTextureReference();
+		texG = (*imgs[numStoredFrames / 2]).getTextureReference();
+		texB = (*imgs[numStoredFrames - 1]).getTextureReference();
 	}
 	
 }
@@ -124,21 +115,33 @@ void ColorsOfMovement::drawFBO()
 ///////////////////////////////////////////////////////////////////////////////////
 bool ColorsOfMovement::isReady()
 {
-	return (imgs.size() >= MAX_STORED_FRAMES) ? true : false;
+	return (imgs.size() >= numStoredFrames) ? true : false;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // setStoredFrames ----------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::setStoredFrames(int numFrames){
 	if(numFrames < 3) numFrames = 3;
-	MAX_STORED_FRAMES = numFrames; 
-	setup(width, height);
+	numStoredFrames = numFrames;
+	settings.setValue("STORED_FRAMES", numStoredFrames, 0);
+	saveSettings();				  
+	 
+	flushStoredFrames();
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // getStoreFrames -----------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 int ColorsOfMovement::getStoredFrames(){
-	 return MAX_STORED_FRAMES;
+	 return numStoredFrames;
+}
+///////////////////////////////////////////////////////////////////////////////////
+// flushStoredFrames --------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+void ColorsOfMovement::flushStoredFrames(){
+	while (imgs.size() > 0){
+		delete imgs[0];
+		imgs.erase(imgs.begin());
+	}
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // getWidth() ---------------------------------------------------------------------
@@ -165,26 +168,14 @@ ofTexture & ColorsOfMovement::getTextureReference()
 // saveSettings -------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::saveSettings(){
-	
-	FILE * f = fopen( ofToDataPath("ColorsOfMovement_settings.txt", TRUE).c_str() ,"w");
-
-	if ( f == nil )
-		return;
-	
-	fprintf (f,"MAX_STORED_FRAMES %d\n",MAX_STORED_FRAMES);
-	fclose(f);
+	settings.saveFile("ColorsOfMovement.xml");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 // loadSettings ------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::loadSettings(){
-
-	FILE * f = fopen( ofToDataPath("ColorsOfMovement_settings.txt", TRUE).c_str() ,"r");
-
-	if (f==nil)
-		return;
-	
-	fscanf (f,"MAX_STORED_FRAMES %d\n", &MAX_STORED_FRAMES );
-	fclose(f);
+	settings.loadFile("ColorsOfMovement.xml");
+	//if the settings  doesn't exist we assigns the default
+	setStoredFrames(settings.getValue("STORED_FRAMES", CM_DEFAULT_NUM_STORED_FRAMES));
 }

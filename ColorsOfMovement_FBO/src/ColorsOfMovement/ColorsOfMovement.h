@@ -10,7 +10,10 @@
 #ifndef _COLORS_OF_MOVEMENT
 #define _COLORS_OF_MOVEMENT
 
+#define CM_DEFAULT_NUM_STORED_FRAMES 30
+
 #include "ofMain.h"
+#include "ofxXmlSettings.h"
 
 ////////////////////////////////////////////////////////////
 // CLASS DEFINITION ----------------------------------------
@@ -54,6 +57,11 @@ private:
 	int					width, height;
 	ofTexture			texR, texG, texB;	
 	ofFbo				fbo;
+	
+	ofxXmlSettings		settings;
+	int					numStoredFrames;
+	
+	void				flushStoredFrames();
 		
 };
 #endif
