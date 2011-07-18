@@ -3,46 +3,29 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // setup --------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
-void testApp::setup(){
-	
+void testApp::setup(){	
 	ofSetVerticalSync(true);
-	ofSetFrameRate(30);
 	ofBackground(25, 28, 33);
 	ofSetFullscreen(true);
 	
 	logo.loadImage("logo.png");
 	splash.loadImage("splash.png");
 	
-	//ofAddListener(capture.events.connectionEvt, this, &testApp::onCameraConnection);
-	
-	//capture.startCapture(640, 480);
 	capture.setVerbose(true);
 	capture.setDeviceID(1);
 	capture.initGrabber(640,480);
 	
 	cm.setup(640, 480);
 }
-/*///////////////////////////////////////////////////////////////////////////////////
-// onConnection -------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-void testApp::onCameraConnection(ofxSmartCaptureEventArgs &args){
-	cm.setup(args.captureSize.x, args.captureSize.y);
-}*/
+
 ///////////////////////////////////////////////////////////////////////////////////
 // update -------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void testApp::update(){
-	/*capture.update();
-	
-	if (capture.isCameraAvailable() && capture.isFrameNew())
-		cm.update(capture.getPixels());*/
-	
 	capture.grabFrame();
 	
 	if (capture.isFrameNew())
-		cm.update(capture.getPixels());
-	
-	
+		cm.update(capture.getPixels());	
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // draw ---------------------------------------------------------------------------
@@ -52,13 +35,7 @@ void testApp::draw(){
 	float w,h,x,y;
 	if(cm.isReady())
 	{
-		ofDrawImageInRect( &(cm.tex),											//original image pointer
-							ofRectangle( 0,0, ofGetWidth(), ofGetHeight()),		//size and location of the image
-							false,												//rotate 90
-							true,												//flip horizontal
-							VERTICAL_CENTER,									//vertical align
-							HORIZONTAL_CENTER									//horizontal align
-							);
+		cm.draw(0, 0, ofGetWidth(), ofGetHeight());
 		
 		// Draw logo
 		ofEnableAlphaBlending();
@@ -82,15 +59,13 @@ void testApp::draw(){
 		splash.draw(x,y,w,h);
 		ofPopMatrix();
 		ofDisableAlphaBlending();
-	}
-	
+	}	
 
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // keyPressed ---------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void testApp::keyPressed(int key){
-	
 	if (key=='s')
 		capture.videoSettings();
 	
@@ -101,14 +76,5 @@ void testApp::keyPressed(int key){
 		cm.setStoredFrames( cm.getStoredFrames() - 1 );
 	
 	if (key=='+')
-		cm.setStoredFrames( cm.getStoredFrames() + 1 );
-	
-	if (key == 'w') 	
-		cm.saveSettings();
-	
-	if (key == 'r') 
-		cm.loadSettings(); 
-	
-	printf( "%d frames\n", cm.getStoredFrames() );
-	
+		cm.setStoredFrames( cm.getStoredFrames() + 1 );	
 }

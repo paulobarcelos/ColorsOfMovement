@@ -16,8 +16,6 @@
 ColorsOfMovement::ColorsOfMovement()
 {	
 	RGBData = NULL;
-	MAX_STORED_FRAMES = 30;
-	loadSettings();
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // Destructor --------------------------------------------------------------------
@@ -40,12 +38,9 @@ void ColorsOfMovement::setup(int width, int height)
 	tex.clear();
 	tex.allocate(width, height, GL_RGB);
 	
-	// Clear the stored images
-	while (imgs.size() > 0){
-		delete imgs[0];
-		imgs.erase(imgs.begin());
-	}
-		
+	flushStoredFrames();
+	
+	loadSettings();		
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // update -------------------------------------------------------------------------
@@ -56,16 +51,16 @@ void ColorsOfMovement::update(unsigned char * pixels)
 	(*currentFrame).setFromPixels(pixels, width,  height, OF_IMAGE_COLOR);
 	
 	imgs.push_back(currentFrame);
-	if (imgs.size() > MAX_STORED_FRAMES){
+	if (imgs.size() > numStoredFrames){
 		delete imgs[0];
 		imgs.erase(imgs.begin());
 	}
 	
-	if (imgs.size() == MAX_STORED_FRAMES)
+	if (imgs.size() == numStoredFrames)
 	{
 		pixelsB =  (*imgs[0]).getPixels();
-		pixelsG =  (*imgs[MAX_STORED_FRAMES / 2]).getPixels();
-		pixelsR =  (*imgs[MAX_STORED_FRAMES - 1]).getPixels();
+		pixelsG =  (*imgs[numStoredFrames / 2]).getPixels();
+		pixelsR =  (*imgs[numStoredFrames - 1]).getPixels();
 		
 		
 		channel = 0;
@@ -100,58 +95,79 @@ void ColorsOfMovement::update(unsigned char * pixels)
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::draw(float x, float y, float w, float h)
 {
-	tex.draw(x, y, w, h);
+	ofDrawImageInRect(&tex, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
 }
 
 void ColorsOfMovement::draw(float x, float y)
 {
-	tex.draw(x, y);
+	draw(x, y, width, height);
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // isReady ------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 bool ColorsOfMovement::isReady()
 {
-	return (imgs.size() >= MAX_STORED_FRAMES) ? true : false;
+	return (imgs.size() >= numStoredFrames) ? true : false;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // setStoredFrames ----------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::setStoredFrames(int numFrames){
 	if(numFrames < 3) numFrames = 3;
-	MAX_STORED_FRAMES = numFrames; 
-	setup(width, height);
+	numStoredFrames = numFrames;
+	settings.setValue("STORED_FRAMES", numStoredFrames, 0);
+	saveSettings();				  
+	
+	flushStoredFrames();
 }
 ///////////////////////////////////////////////////////////////////////////////////
-// getStoreFrames ----------------------------------------------------------------
+// getStoreFrames -----------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 int ColorsOfMovement::getStoredFrames(){
-	 return MAX_STORED_FRAMES;
+	return numStoredFrames;
+}
+///////////////////////////////////////////////////////////////////////////////////
+// flushStoredFrames --------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+void ColorsOfMovement::flushStoredFrames(){
+	while (imgs.size() > 0){
+		delete imgs[0];
+		imgs.erase(imgs.begin());
+	}
+}
+///////////////////////////////////////////////////////////////////////////////////
+// getWidth() ---------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+int ColorsOfMovement::getWidth()
+{
+	return width;
+}
+///////////////////////////////////////////////////////////////////////////////////
+// getHeight() --------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+int ColorsOfMovement::getHeight()
+{
+	return height;
+}
+///////////////////////////////////////////////////////////////////////////////////
+// getTextureReference() ----------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+ofTexture & ColorsOfMovement::getTextureReference()
+{
+	return tex;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // saveSettings -------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::saveSettings(){
-	
-	FILE * f = fopen( ofToDataPath("ColorsOfMovement_settings.txt", TRUE).c_str() ,"w");
-
-	if ( f == nil )
-		return;
-	
-	fprintf (f,"MAX_STORED_FRAMES %d\n",MAX_STORED_FRAMES);
-	fclose(f);
+	settings.saveFile("ColorsOfMovement.xml");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 // loadSettings ------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::loadSettings(){
-
-	FILE * f = fopen( ofToDataPath("ColorsOfMovement_settings.txt", TRUE).c_str() ,"r");
-
-	if (f==nil)
-		return;
-	
-	fscanf (f,"MAX_STORED_FRAMES %d\n", &MAX_STORED_FRAMES );
-	fclose(f);
+	settings.loadFile("ColorsOfMovement.xml");
+	//if the settings  doesn't exist we assigns the default
+	setStoredFrames(settings.getValue("STORED_FRAMES", CM_DEFAULT_NUM_STORED_FRAMES));
 }
