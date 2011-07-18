@@ -1,0 +1,25 @@
+<install>
+
+	<version>0.1</version>
+	<author>Oriol Ferrer Mesiˆ</author>
+	<url>www.fabrica.it/</url>
+	<requires>
+		</requires>
+		
+	<add>	
+		<src>
+			<folder name="addons/ofxDrawingUtils/src">			
+				<file>../../../addons/ofxDrawingUtils/ofxDrawingUtils.h</file>
+				<file>../../../addons/ofxAccelerometer/ofxDrawingUtils.cpp</file>
+			</folder>
+		</src>
+
+		<include>
+		</include>
+		
+		<link>
+		</link>
+
+	</add>
+	
+</install>
