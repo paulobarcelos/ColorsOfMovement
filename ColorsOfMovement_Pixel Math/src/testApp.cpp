@@ -12,7 +12,6 @@ void testApp::setup(){
 	splash.loadImage("splash.png");
 	
 	capture.setVerbose(true);
-	capture.setDeviceID(1);
 	capture.initGrabber(640,480);
 	
 	cm.setup(640, 480);
