@@ -3,6 +3,7 @@
 
 #include "ofMain.h"
 #include "ColorsOfMovement.h"
+#include "ofxKeyboardSettings.h"
 
 ////////////////////////////////////////////////////////////
 // CLASS DEFINITION ----------------------------------------
@@ -18,5 +19,7 @@ public:
 	
 	ofVideoGrabber 		capture;	
 	ColorsOfMovement	cm;
+	
+	ofxKeyboardSettings	settings;
 };
 #endif

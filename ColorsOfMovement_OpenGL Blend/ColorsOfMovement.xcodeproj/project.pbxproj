@@ -13,6 +13,7 @@
 		38140A6313D4C0CC007D8648 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A5D13D4C0CC007D8648 /* tinyxmlerror.cpp */; };
 		38140A6413D4C0CC007D8648 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A5E13D4C0CC007D8648 /* tinyxmlparser.cpp */; };
 		38140A6513D4C0CC007D8648 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A6013D4C0CC007D8648 /* ofxXmlSettings.cpp */; };
+		38ED374613D5D8CE00A37764 /* ofxKeyboardSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38ED374413D5D8CE00A37764 /* ofxKeyboardSettings.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -73,6 +74,8 @@
 		38140A5E13D4C0CC007D8648 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		38140A6013D4C0CC007D8648 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		38140A6113D4C0CC007D8648 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		38ED374413D5D8CE00A37764 /* ofxKeyboardSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxKeyboardSettings.cpp; sourceTree = "<group>"; };
+		38ED374513D5D8CE00A37764 /* ofxKeyboardSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxKeyboardSettings.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -170,9 +173,28 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		38ED371C13D5D8CE00A37764 /* ofxKeyboardSettings */ = {
+			isa = PBXGroup;
+			children = (
+				38ED374313D5D8CE00A37764 /* src */,
+			);
+			name = ofxKeyboardSettings;
+			path = ../../../addons/ofxKeyboardSettings;
+			sourceTree = SOURCE_ROOT;
+		};
+		38ED374313D5D8CE00A37764 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				38ED374413D5D8CE00A37764 /* ofxKeyboardSettings.cpp */,
+				38ED374513D5D8CE00A37764 /* ofxKeyboardSettings.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				38ED371C13D5D8CE00A37764 /* ofxKeyboardSettings */,
 				38140A5813D4C0CC007D8648 /* ofxXmlSettings */,
 				38140A1613D4C0B9007D8648 /* ofxDrawingUtils */,
 			);
@@ -340,6 +362,7 @@
 				38140A6313D4C0CC007D8648 /* tinyxmlerror.cpp in Sources */,
 				38140A6413D4C0CC007D8648 /* tinyxmlparser.cpp in Sources */,
 				38140A6513D4C0CC007D8648 /* ofxXmlSettings.cpp in Sources */,
+				38ED374613D5D8CE00A37764 /* ofxKeyboardSettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

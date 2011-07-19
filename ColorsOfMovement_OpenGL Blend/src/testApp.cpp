@@ -11,6 +11,9 @@ void testApp::setup(){
 	capture.initGrabber(640,480);
 	
 	cm.setup(640, 480);
+	
+	settings.setup('a', "App.xml");
+	settings.saveSettings();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -44,4 +47,6 @@ void testApp::keyPressed(int key){
 	
 	if (key=='+')
 		cm.setStoredFrames( cm.getStoredFrames() + 1 );
+	
+	settings.proccessKey(key);
 }
