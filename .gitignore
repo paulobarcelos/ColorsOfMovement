@@ -7,6 +7,7 @@
 *.build
 
 # Windows
+*.ini
 *.user
 *.suo
 *.ncb
@@ -19,3 +20,4 @@
 */bin/*.pdb
 */bin/*.ilk
 */bin/*.dll
+
