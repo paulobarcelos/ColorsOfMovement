@@ -13,7 +13,6 @@ void testApp::setup(){
 	cm.setup(640, 480);
 	
 	settings.setup('a', "App.xml");
-	settings.saveSettings();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
