@@ -13,7 +13,7 @@
 #define CM_DEFAULT_NUM_STORED_FRAMES 30
 
 #include "ofMain.h"
-#include "ofxXmlSettings.h"
+#include "ofxKeyboardSettings.h"
 #include "ofxDrawingUtils.h"
 
 ////////////////////////////////////////////////////////////
@@ -28,15 +28,13 @@ public:
 	
 	void				setup(int width, int height);
 	void				update(unsigned char * pixels);
+	void				keyPressed(int key);
 	void				draw(float x, float y, float w, float h);
 	void				draw(float x, float y);
 	
 	bool				isReady();
 	void				setStoredFrames(int numFrames);
-	int					getStoredFrames();
-
-	void				saveSettings();
-	void				loadSettings();
+	int					getStoredFrames();	
 	
 	int					getWidth();
 	int					getHeight();
@@ -53,7 +51,9 @@ private:
 	void				drawFBO();
 	ofFbo				fbo;
 	
-	ofxXmlSettings		settings;
+	ofxKeyboardSettings	settings;
+	
+	ofxKeyboardIntProperty* numStoredFramesProperty;
 	int					numStoredFrames;
 	
 	void				flushStoredFrames();

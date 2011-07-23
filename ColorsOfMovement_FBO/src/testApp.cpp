@@ -41,9 +41,5 @@ void testApp::keyPressed(int key){
 	if (key==' ')
 		ofToggleFullscreen();
 		
-	if (key=='-')
-		cm.setStoredFrames( cm.getStoredFrames() - 1 );
-	
-	if (key=='+')
-		cm.setStoredFrames( cm.getStoredFrames() + 1 );
+	cm.keyPressed(key);
 }

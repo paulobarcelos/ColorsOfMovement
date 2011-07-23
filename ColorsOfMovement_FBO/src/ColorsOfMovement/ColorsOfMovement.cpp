@@ -36,10 +36,11 @@ void ColorsOfMovement::setup(int width, int height)
 	s.numColorbuffers	= 1;
 	s.numSamples		= 0;
 	fbo.allocate(s);
+	
+	settings.setup('c', "Colors_of_Movement");
+	numStoredFramesProperty = settings.addProperty(&numStoredFrames, "Stored_Frames", 3, 300, 1, CM_DEFAULT_NUM_STORED_FRAMES);
 
 	flushStoredFrames();
-	
-	loadSettings();
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // update -------------------------------------------------------------------------
@@ -64,17 +65,24 @@ void ColorsOfMovement::update(unsigned char * pixels)
 	
 }
 ///////////////////////////////////////////////////////////////////////////////////
+// keyPressed ---------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+void ColorsOfMovement::keyPressed(int key){
+	settings.proccessKey(key);
+}
+///////////////////////////////////////////////////////////////////////////////////
 // draw ------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::draw(float x, float y, float w, float h)
 {
 	drawFBO();
 	ofDrawImageInRect(&(fbo.getTextureReference()), ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
+	settings.draw();
 }
 
 void ColorsOfMovement::draw(float x, float y)
 {
-	fbo.draw(x, y, width, height);
+	draw(x, y, width, height);
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // drawFBO ------------------------------------------------------------------------
@@ -106,6 +114,7 @@ void ColorsOfMovement::drawFBO()
 		glDisable(GL_BLEND);
 	fbo.end();
 }
+
 ///////////////////////////////////////////////////////////////////////////////////
 // isReady ------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -118,9 +127,7 @@ bool ColorsOfMovement::isReady()
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::setStoredFrames(int numFrames){
 	if(numFrames < 3) numFrames = 3;
-	numStoredFrames = numFrames;
-	settings.setValue("STORED_FRAMES", numStoredFrames, 0);
-	saveSettings();				  
+	settings.setProperty(numStoredFramesProperty, numFrames);
 	 
 	flushStoredFrames();
 }
@@ -159,19 +166,4 @@ int ColorsOfMovement::getHeight()
 ofTexture & ColorsOfMovement::getTextureReference()
 {
 	return fbo.getTextureReference();
-}
-///////////////////////////////////////////////////////////////////////////////////
-// saveSettings -------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-void ColorsOfMovement::saveSettings(){
-	settings.saveFile("ColorsOfMovement.xml");
-}
-
-///////////////////////////////////////////////////////////////////////////////////
-// loadSettings ------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-void ColorsOfMovement::loadSettings(){
-	settings.loadFile("ColorsOfMovement.xml");
-	//if the settings  doesn't exist we assigns the default
-	setStoredFrames(settings.getValue("STORED_FRAMES", CM_DEFAULT_NUM_STORED_FRAMES));
 }
