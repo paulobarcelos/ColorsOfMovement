@@ -77,7 +77,7 @@ void ColorsOfMovement::draw(float x, float y, float w, float h)
 {
 	drawFBO();
 	ofDrawImageInRect(&(fbo.getTextureReference()), ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
-	settings.draw();
+	//settings.draw();
 }
 
 void ColorsOfMovement::draw(float x, float y)
@@ -91,9 +91,9 @@ void ColorsOfMovement::drawFBO()
 {
 	fbo.begin();
 		// "clear" the fbo by drawing a black rectangle over it
-		ofSetColor(0, 0, 0);
+		ofSetColor(0);
 		ofRect(0, 0, width, height);
-		ofSetColor(255, 255, 255);
+		ofSetColor(255);
 		
 		// and draw each of the textures, with their coresponden't blengin mode
 		glEnable(GL_BLEND);
@@ -127,7 +127,8 @@ bool ColorsOfMovement::isReady()
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::setStoredFrames(int numFrames){
 	if(numFrames < 3) numFrames = 3;
-	settings.setProperty(numStoredFramesProperty, numFrames);
+	numStoredFrames = numFrames;
+	//settings.setProperty(numStoredFramesProperty, numFrames);
 	 
 	flushStoredFrames();
 }
