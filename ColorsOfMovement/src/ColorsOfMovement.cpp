@@ -123,23 +123,21 @@ void ColorsOfMovement::draw(float x, float y, float w, float h)
 	else if(mode == CM_GL_BLEND_MODE){		
 		ofSetColor(0);
 		ofRect(x, y, w, h);
-		ofSetColor(255);
+		ofSetColor(255);		
 		
 		glEnable(GL_BLEND);
-		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		
 		glBlendColor(255,0,0,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		ofDrawImageInRect(&texR, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
 		
 		glBlendColor(0,255,0,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		ofDrawImageInRect(&texG, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
 		
 		glBlendColor(0,0,255,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		ofDrawImageInRect(&texB, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
 		
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_BLEND);
 	}
 	else if(mode == CM_FBO_MODE){
@@ -164,23 +162,21 @@ void ColorsOfMovement::drawFBO()
 		ofRect(0, 0, width, height);
 		ofSetColor(255);
 		
-		// and draw each of the textures, with their coresponden't blengin mode
 		glEnable(GL_BLEND);
-		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 	
-		glBlendColor(255,0,0,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);	
+		glBlendColor(255,0,0,255);	
 		texR.draw(0, 0);
 	
 		glBlendColor(0,255,0,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		texG.draw(0, 0);
 	
 		glBlendColor(0,0,255,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		texB.draw(0, 0);
 	
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_BLEND);
+	
 	fbo.end();
 }
 ///////////////////////////////////////////////////////////////////////////////////

@@ -11,6 +11,7 @@ void testApp::setup(){
 	capture.initGrabber(640,480);
 	
 	cm.setup(640, 480);
+	cmSettings.setup(&cm);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -29,14 +30,13 @@ void testApp::update(){
 void testApp::draw(){
 	if(cm.isReady())
 		cm.draw(0, 0, ofGetWidth(), ofGetHeight());
+	cmSettings.draw(0,0);
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // keyPressed ---------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void testApp::keyPressed(int key){
-	
-	if (key=='s')
-		capture.videoSettings();
+	cmSettings.keyPressed(key);
 	
 	if (key==' ')
 		ofToggleFullscreen();

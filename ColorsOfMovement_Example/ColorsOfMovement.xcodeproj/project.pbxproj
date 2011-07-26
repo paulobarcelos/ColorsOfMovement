@@ -14,6 +14,7 @@
 		38140A0813D4C02A007D8648 /* ofxDrawingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38140A0513D4C02A007D8648 /* ofxDrawingUtils.cpp */; };
 		383BA1A113DB2EDF005C2F4C /* ofxKeyboardSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 383BA19613DB2EDF005C2F4C /* ofxKeyboardSettings.cpp */; };
 		388FF69F13DF08D90077DD53 /* ColorsOfMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 388FF69D13DF08D90077DD53 /* ColorsOfMovement.cpp */; };
+		388FF6E713DF46270077DD53 /* ColorsOfMovementSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 388FF6E613DF46270077DD53 /* ColorsOfMovementSettings.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -76,6 +77,8 @@
 		383BA19713DB2EDF005C2F4C /* ofxKeyboardSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxKeyboardSettings.h; sourceTree = "<group>"; };
 		388FF69D13DF08D90077DD53 /* ColorsOfMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorsOfMovement.cpp; sourceTree = "<group>"; };
 		388FF69E13DF08D90077DD53 /* ColorsOfMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsOfMovement.h; sourceTree = "<group>"; };
+		388FF6E513DF46270077DD53 /* ColorsOfMovementSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsOfMovementSettings.h; sourceTree = "<group>"; };
+		388FF6E613DF46270077DD53 /* ColorsOfMovementSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorsOfMovementSettings.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -176,8 +179,8 @@
 		383BA19513DB2EDF005C2F4C /* src */ = {
 			isa = PBXGroup;
 			children = (
-				383BA19613DB2EDF005C2F4C /* ofxKeyboardSettings.cpp */,
 				383BA19713DB2EDF005C2F4C /* ofxKeyboardSettings.h */,
+				383BA19613DB2EDF005C2F4C /* ofxKeyboardSettings.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -205,8 +208,10 @@
 		388FF69C13DF08D90077DD53 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				388FF69D13DF08D90077DD53 /* ColorsOfMovement.cpp */,
 				388FF69E13DF08D90077DD53 /* ColorsOfMovement.h */,
+				388FF69D13DF08D90077DD53 /* ColorsOfMovement.cpp */,
+				388FF6E513DF46270077DD53 /* ColorsOfMovementSettings.h */,
+				388FF6E613DF46270077DD53 /* ColorsOfMovementSettings.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -380,6 +385,7 @@
 				38140A0813D4C02A007D8648 /* ofxDrawingUtils.cpp in Sources */,
 				383BA1A113DB2EDF005C2F4C /* ofxKeyboardSettings.cpp in Sources */,
 				388FF69F13DF08D90077DD53 /* ColorsOfMovement.cpp in Sources */,
+				388FF6E713DF46270077DD53 /* ColorsOfMovementSettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
