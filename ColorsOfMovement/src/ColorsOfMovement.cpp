@@ -15,31 +15,45 @@
 ///////////////////////////////////////////////////////////////////////////////////
 ColorsOfMovement::ColorsOfMovement()
 {
+	RGBData = NULL;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // Destructor --------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 ColorsOfMovement::~ColorsOfMovement()
 {	
+	if(RGBData != NULL) delete RGBData;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // setup --------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
-void ColorsOfMovement::setup(int width, int height)
+void ColorsOfMovement::setup(int width, int height, int numStoredFrames, int mode)
 {	
 	this->width = width;
 	this->height = height;
-
-	ofFbo::Settings s;
-	s.width				= width;
-	s.height			= height;
-	s.numColorbuffers	= 1;
-	s.numSamples		= 0;
-	fbo.allocate(s);
-
-	flushStoredFrames();
 	
-	loadSettings();
+	setMode(mode);
+	setNumStoredFrames(numStoredFrames);
+}
+///////////////////////////////////////////////////////////////////////////////////
+// setMode ------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+void ColorsOfMovement::setMode(int mode)
+{
+	this->mode = mode;
+	switch (mode) {
+		case CM_FBO_MODE:
+			fbo.allocate(width, height);
+			break;
+		case CM_PIXEL_MATH_MODE:
+			totalPixels = width * height * 3;
+			if(RGBData != NULL) delete RGBData;
+			RGBData = new unsigned char[totalPixels];
+			tex.clear();
+			tex.allocate(width, height, GL_RGB);
+			break;
+	}
+	flushStoredFrames();
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // update -------------------------------------------------------------------------
@@ -57,24 +71,85 @@ void ColorsOfMovement::update(unsigned char * pixels)
 	
 	if (imgs.size() == numStoredFrames)
 	{
-		texR = (*imgs[0]).getTextureReference();
-		texG = (*imgs[numStoredFrames / 2]).getTextureReference();
-		texB = (*imgs[numStoredFrames - 1]).getTextureReference();
-	}
-	
+		if (mode == CM_PIXEL_MATH_MODE){
+			unsigned char* pixelsR, * pixelsG, * pixelsB;
+			pixelsB =  (*imgs[0]).getPixels();
+			pixelsG =  (*imgs[numStoredFrames / 2]).getPixels();
+			pixelsR =  (*imgs[numStoredFrames - 1]).getPixels();
+			
+			
+			int channel, r, g, b;
+			channel = 0;
+			for (int i = 0; i < totalPixels ; i++){
+				if ( channel == 0 ) // R
+				{
+					r = pixelsR[i];
+					channel ++;
+				}
+				else if ( channel == 1 ) // G
+				{
+					g = pixelsG[i];
+					channel ++;
+				}	
+				else if ( channel == 2 ) // B
+				{
+					b =  pixelsB[i];
+					
+					RGBData[i-2] = r;
+					RGBData[i-1] = g;
+					RGBData[i] = b;
+					channel = 0;
+				}
+				
+			}
+			tex.loadData(RGBData, width, height, GL_RGB);
+		}
+		else if (mode == CM_GL_BLEND_MODE || mode == CM_FBO_MODE){
+			texR = (*imgs[0]).getTextureReference();
+			texG = (*imgs[numStoredFrames / 2]).getTextureReference();
+			texB = (*imgs[numStoredFrames - 1]).getTextureReference();
+		}
+	}	
 }
+
 ///////////////////////////////////////////////////////////////////////////////////
-// draw ------------------------------------------------------------------------
+// draw ---------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ColorsOfMovement::draw(float x, float y, float w, float h)
 {
-	drawFBO();
-	ofDrawImageInRect(&(fbo.getTextureReference()), ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
+	if (mode == CM_PIXEL_MATH_MODE){
+		ofDrawImageInRect(&tex, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
+	}
+	else if(mode == CM_GL_BLEND_MODE){		
+		ofSetColor(0);
+		ofRect(x, y, w, h);
+		ofSetColor(255);		
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
+		
+		glBlendColor(255,0,0,255);
+		ofDrawImageInRect(&texR, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
+		
+		glBlendColor(0,255,0,255);
+		ofDrawImageInRect(&texG, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
+		
+		glBlendColor(0,0,255,255);
+		ofDrawImageInRect(&texB, ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
+		
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_BLEND);
+	}
+	else if(mode == CM_FBO_MODE){
+		drawFBO();
+		ofDrawImageInRect(&(fbo.getTextureReference()), ofRectangle(x, y, w, h), false, true, VERTICAL_CENTER, HORIZONTAL_CENTER);
+	}
+
 }
 
 void ColorsOfMovement::draw(float x, float y)
 {
-	fbo.draw(x, y, width, height);
+	draw(x, y, width, height);
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // drawFBO ------------------------------------------------------------------------
@@ -83,53 +158,36 @@ void ColorsOfMovement::drawFBO()
 {
 	fbo.begin();
 		// "clear" the fbo by drawing a black rectangle over it
-		ofSetColor(0, 0, 0);
+		ofSetColor(0);
 		ofRect(0, 0, width, height);
-		ofSetColor(255, 255, 255);
+		ofSetColor(255);
 		
-		// and draw each of the textures, with their coresponden't blengin mode
 		glEnable(GL_BLEND);
-		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 	
-		glBlendColor(255,0,0,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);	
+		glBlendColor(255,0,0,255);	
 		texR.draw(0, 0);
 	
 		glBlendColor(0,255,0,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		texG.draw(0, 0);
 	
 		glBlendColor(0,0,255,255);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE);
 		texB.draw(0, 0);
 	
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_BLEND);
+	
 	fbo.end();
-}
-///////////////////////////////////////////////////////////////////////////////////
-// isReady ------------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-bool ColorsOfMovement::isReady()
-{
-	return (imgs.size() >= numStoredFrames) ? true : false;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // setStoredFrames ----------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
-void ColorsOfMovement::setStoredFrames(int numFrames){
-	if(numFrames < 3) numFrames = 3;
-	numStoredFrames = numFrames;
-	settings.setValue("STORED_FRAMES", numStoredFrames, 0);
-	saveSettings();				  
-	 
+void ColorsOfMovement::setNumStoredFrames(int numStoredFrames){
+	if(numStoredFrames < 3) numStoredFrames = 3;
+	this->numStoredFrames = numStoredFrames;
 	flushStoredFrames();
 }
-///////////////////////////////////////////////////////////////////////////////////
-// getStoreFrames -----------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-int ColorsOfMovement::getStoredFrames(){
-	 return numStoredFrames;
-}
+
 ///////////////////////////////////////////////////////////////////////////////////
 // flushStoredFrames --------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -140,38 +198,19 @@ void ColorsOfMovement::flushStoredFrames(){
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////////
-// getWidth() ---------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-int ColorsOfMovement::getWidth()
-{
-	return width;
-}
-///////////////////////////////////////////////////////////////////////////////////
-// getHeight() --------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-int ColorsOfMovement::getHeight()
-{
-	return height;
-}
-///////////////////////////////////////////////////////////////////////////////////
 // getTextureReference() ----------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 ofTexture & ColorsOfMovement::getTextureReference()
 {
-	return fbo.getTextureReference();
-}
-///////////////////////////////////////////////////////////////////////////////////
-// saveSettings -------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-void ColorsOfMovement::saveSettings(){
-	settings.saveFile("ColorsOfMovement.xml");
-}
-
-///////////////////////////////////////////////////////////////////////////////////
-// loadSettings ------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-void ColorsOfMovement::loadSettings(){
-	settings.loadFile("ColorsOfMovement.xml");
-	//if the settings  doesn't exist we assigns the default
-	setStoredFrames(settings.getValue("STORED_FRAMES", CM_DEFAULT_NUM_STORED_FRAMES));
+	switch (mode) {
+		case CM_FBO_MODE:
+			return fbo.getTextureReference();
+			break;
+		case CM_PIXEL_MATH_MODE:
+			return tex;
+			break;
+		case CM_GL_BLEND_MODE:
+			return tex; // this texture will be unitialized
+			break;
+	}
 }
